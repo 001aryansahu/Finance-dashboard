@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Insights</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        * { box-sizing: border-box; }
+        body { margin:0; font-family: Arial, sans-serif; background:#f8fafc; color:#0f172a; }
+        .page { max-width: 1200px; margin: 0 auto; padding: 28px; }
+        .topbar { display:flex; justify-content:space-between; align-items:center; gap:16px; margin-bottom:22px; }
+        .actions { display:flex; gap:12px; flex-wrap:wrap; }
+        .btn { text-decoration:none; padding:11px 16px; border-radius:12px; font-weight:700; font-size:14px; display:inline-block; }
+        .primary { background:#2563eb; color:white; }
+        .secondary { background:#e2e8f0; color:#0f172a; }
+        .grid { display:grid; grid-template-columns:repeat(4, 1fr); gap:18px; margin-bottom:22px; }
+        .card, .panel { background:white; border-radius:22px; padding:22px; border:1px solid #e2e8f0; box-shadow:0 18px 45px rgba(15,23,42,0.06); }
+        .card h3 { margin:0 0 10px; font-size:16px; color:#475569; }
+        .amount { font-size:28px; font-weight:800; }
+        .chart-grid { display:grid; grid-template-columns:1fr 1fr; gap:18px; }
+        table { width:100%; border-collapse: collapse; }
+        th, td { padding:14px 16px; text-align:left; border-bottom:1px solid #e2e8f0; }
+        th { background:#f8fafc; color:#334155; }
+        .muted { color:#64748b; }
+        @media (max-width: 900px) { .grid, .chart-grid { grid-template-columns:1fr; } .topbar { flex-direction:column; align-items:flex-start; } }
+    </style>
+</head>
+<body>
+<div class="page">
+    <div class="topbar">
+        <div>
+            <h1 style="margin:0 0 8px;">Insights Dashboard</h1>
+            <p class="muted" style="margin:0;">Role: <strong th:text="${sessionUser.role}"></strong> | Analytical view of financial data</p>
+        </div>
+        <div class="actions">
+            <a href="/dashboard" class="btn secondary">Back to Dashboard</a>
+            <a th:if="${canManageRecords}" href="/expenses" class="btn primary">Open Records</a>
+        </div>
+    </div>
+
+    <div class="grid">
+        <div class="card"><h3>Total Income</h3><div class="amount" th:text="${data.income}"></div></div>
+        <div class="card"><h3>Total Expense</h3><div class="amount" th:text="${data.expense}"></div></div>
+        <div class="card"><h3>Net Balance</h3><div class="amount" th:text="${data.balance}"></div></div>
+        <div class="card"><h3>Top Category</h3><div class="amount" style="font-size:24px;" th:text="${data.topCategory}"></div></div>
+    </div>
+
+    <div class="chart-grid">
+        <div class="panel">
+            <h3>Monthly Trend</h3>
+            <canvas id="monthlyChart"></canvas>
+        </div>
+        <div class="panel">
+            <h3>Category Distribution</h3>
+            <canvas id="categoryChart"></canvas>
+        </div>
+    </div>
+
+    <div class="panel" style="margin-top:18px;">
+        <h3>Category Summary</h3>
+        <table>
+            <thead><tr><th>Category</th><th>Total Amount</th></tr></thead>
+            <tbody>
+            <tr th:each="c : ${data.category}"><td th:text="${c[0]}"></td><td th:text="${c[1]}"></td></tr>
+            <tr th:if="${#lists.isEmpty(data.category)}"><td colspan="2" class="muted">No summary data available.</td></tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="panel" style="margin-top:18px;">
+        <h3>Recent Activity</h3>
+        <table>
+            <thead><tr><th>Date</th><th>Type</th><th>Category</th><th>Amount</th><th>Notes</th></tr></thead>
+            <tbody>
+            <tr th:each="t : ${data.recent}">
+                <td th:text="${t.date}"></td>
+                <td th:text="${t.type}"></td>
+                <td th:text="${t.category}"></td>
+                <td th:text="${t.amount}"></td>
+                <td th:text="${t.notes}"></td>
+            </tr>
+            <tr th:if="${#lists.isEmpty(data.recent)}"><td colspan="5" class="muted">No recent transactions found.</td></tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<script th:inline="javascript">
+    const categoryRows = /*[[${data.category}]]*/ [];
+    const monthlyLabels = /*[[${data.monthlyLabels}]]*/ [];
+    const monthlyTotals = /*[[${data.monthlyTotals}]]*/ [];
+
+    const categoryLabels = [];
+    const categoryTotals = [];
+    if (categoryRows) {
+        categoryRows.forEach(row => {
+            categoryLabels.push(row[0]);
+            categoryTotals.push(row[1]);
+        });
+    }
+
+    new Chart(document.getElementById('monthlyChart'), {
+        type: 'bar',
+        data: {
+            labels: monthlyLabels,
+            datasets: [{ label: 'Total', data: monthlyTotals }]
+        }
+    });
+
+    new Chart(document.getElementById('categoryChart'), {
+        type: 'pie',
+        data: {
+            labels: categoryLabels,
+            datasets: [{ data: categoryTotals }]
+        }
+    });
+</script>
+</body>
+</html>

@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Error</title>
+    <style>
+        body { margin:0; min-height:100vh; display:flex; align-items:center; justify-content:center; padding:24px; background:linear-gradient(135deg,#eff6ff,#f8fafc,#e2e8f0); font-family:Arial,sans-serif; }
+        .card { width:100%; max-width:720px; background:white; border-radius:24px; padding:32px; border:1px solid #e2e8f0; box-shadow:0 25px 55px rgba(15,23,42,0.10); }
+        h1 { margin-top:0; }
+        .meta { color:#64748b; margin-bottom:14px; }
+        .btn { display:inline-block; padding:12px 16px; border-radius:12px; background:#2563eb; color:white; text-decoration:none; font-weight:700; margin-top:10px; }
+        code { background:#f8fafc; padding:2px 6px; border-radius:6px; }
+    </style>
+</head>
+<body>
+<div class="card">
+    <h1>Something went wrong</h1>
+    <p class="meta">Status: <strong th:text="${status}"></strong></p>
+    <p><strong>Error:</strong> <span th:text="${error}"></span></p>
+    <p><strong>Message:</strong> <span th:text="${message}"></span></p>
+    <p><strong>Path:</strong> <code th:text="${path}"></code></p>
+    <a href="/dashboard" class="btn">Back to Dashboard</a>
+</div>
+</body>
+</html>

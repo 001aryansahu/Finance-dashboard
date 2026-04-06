@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title th:text="${user.id != null ? 'Edit User' : 'Create User'}">User Form</title>
+    <style>
+        * { box-sizing: border-box; }
+        body { margin: 0; min-height: 100vh; font-family: Arial, sans-serif; background: linear-gradient(135deg, #e0f2fe, #f8fafc 60%, #dbeafe); display: flex; align-items: center; justify-content: center; padding: 24px; }
+        .card { width: 100%; max-width: 620px; background: white; border-radius: 24px; padding: 32px; box-shadow: 0 25px 55px rgba(15, 23, 42, 0.10); border: 1px solid #e2e8f0; }
+        h2 { margin-top: 0; margin-bottom: 8px; }
+        .muted { color: #64748b; margin-bottom: 24px; }
+        .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+        .full { grid-column: 1 / -1; }
+        label { display: block; margin-bottom: 8px; font-weight: 700; color: #334155; font-size: 14px; }
+        input, select { width: 100%; padding: 13px 14px; border-radius: 14px; border: 1px solid #cbd5e1; font-size: 15px; outline: none; }
+        input:focus, select:focus { border-color: #2563eb; box-shadow: 0 0 0 4px rgba(37,99,235,0.12); }
+        .checkbox-row { display: flex; align-items: center; gap: 10px; padding-top: 12px; }
+        .checkbox-row input { width: auto; }
+        .actions { margin-top: 24px; display: flex; gap: 12px; }
+        .btn { text-decoration: none; border: none; cursor: pointer; border-radius: 14px; padding: 14px 18px; font-weight: 700; font-size: 14px; }
+        .primary { background: #2563eb; color: white; }
+        .secondary { background: #e2e8f0; color: #0f172a; }
+        .field-error { color: #b91c1c; font-size: 13px; margin-top: 6px; }
+        @media (max-width: 700px) { .grid { grid-template-columns: 1fr; } }
+    </style>
+</head>
+<body>
+<div class="card">
+    <h2 th:text="${user.id != null ? 'Edit User' : 'Create New User'}"></h2>
+    <p class="muted">Only admin can create users and assign their roles.</p>
+
+    <form th:action="${user.id != null} ? @{/users/update} : @{/users}" method="post" th:object="${user}">
+        <input type="hidden" th:if="${user.id != null}" th:field="*{id}">
+
+        <div class="grid">
+            <div>
+                <label for="name">Username</label>
+                <input id="name" type="text" th:field="*{name}" placeholder="Enter username">
+                <div class="field-error" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></div>
+            </div>
+
+            <div>
+                <label for="password">Password</label>
+                <input id="password" type="password" th:field="*{password}" placeholder="Enter password">
+                <div class="field-error" th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></div>
+            </div>
+
+            <div>
+                <label for="role">Role</label>
+                <select id="role" th:field="*{role}">
+                    <option value="">Select role</option>
+                    <option value="VIEWER">Viewer</option>
+                    <option value="ANALYST">Analyst</option>
+                    <option value="ADMIN">Admin</option>
+                </select>
+                <div class="field-error" th:if="${#fields.hasErrors('role')}" th:errors="*{role}"></div>
+            </div>
+
+            <div class="checkbox-row full">
+                <input type="checkbox" th:field="*{active}">
+                <span>Active user</span>
+            </div>
+        </div>
+
+        <div class="actions">
+            <button class="btn primary" type="submit" th:text="${user.id != null ? 'Update User' : 'Create User'}"></button>
+            <a class="btn secondary" href="/dashboard">Back to Dashboard</a>
+        </div>
+    </form>
+</div>
+</body>
+</html>

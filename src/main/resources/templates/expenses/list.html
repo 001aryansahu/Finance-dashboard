@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Records</title>
+    <style>
+        * { box-sizing: border-box; }
+        body { margin: 0; font-family: Arial, sans-serif; background: #f8fafc; color: #0f172a; }
+        .page { max-width: 1200px; margin: 0 auto; padding: 28px; }
+        .topbar { display: flex; justify-content: space-between; align-items: center; gap: 16px; margin-bottom: 22px; }
+        h1 { margin: 0; }
+        .muted { color: #64748b; }
+        .panel { background: white; border-radius: 22px; padding: 22px; border: 1px solid #e2e8f0; box-shadow: 0 18px 45px rgba(15,23,42,0.06); margin-bottom: 20px; }
+        .filters { display: grid; grid-template-columns: repeat(5, 1fr); gap: 12px; }
+        input, select, button { width: 100%; padding: 12px 14px; border-radius: 12px; font-size: 14px; border: 1px solid #cbd5e1; }
+        button { background: #2563eb; color: white; border: none; font-weight: 700; cursor: pointer; }
+        .actions { display: flex; gap: 12px; flex-wrap: wrap; }
+        .link-btn { text-decoration: none; padding: 11px 15px; border-radius: 12px; font-weight: 700; font-size: 14px; display: inline-block; }
+        .primary { background: #2563eb; color: white; }
+        .secondary { background: #e2e8f0; color: #0f172a; }
+        table { width: 100%; border-collapse: collapse; }
+        th, td { padding: 14px 16px; text-align: left; border-bottom: 1px solid #e2e8f0; }
+        th { background: #f8fafc; color: #334155; }
+        .type-chip { display: inline-block; padding: 7px 10px; border-radius: 999px; font-size: 12px; font-weight: 700; }
+        .income { background: #dcfce7; color: #166534; }
+        .expense { background: #fee2e2; color: #b91c1c; }
+        .action-links a { text-decoration: none; font-weight: 700; margin-right: 10px; }
+        .edit-link { color: #2563eb; }
+        .delete-link { color: #dc2626; }
+        .message { padding: 13px 15px; border-radius: 12px; margin-bottom: 16px; font-size: 14px; }
+        .error { background: #fee2e2; color: #b91c1c; }
+        .success { background: #dcfce7; color: #166534; }
+        .pagination { display:flex; justify-content:space-between; align-items:center; gap:12px; flex-wrap:wrap; margin-top:18px; }
+        .pagination a, .pagination span { text-decoration:none; padding:10px 14px; border-radius:12px; background:#e2e8f0; color:#0f172a; font-weight:700; font-size:14px; }
+        .pagination .disabled { opacity:0.5; pointer-events:none; }
+        @media (max-width: 900px) { .filters { grid-template-columns: 1fr; } .topbar { flex-direction: column; align-items: flex-start; } }
+    </style>
+</head>
+<body>
+<div class="page">
+    <div class="topbar">
+        <div>
+            <h1>Financial Records</h1>
+            <p class="muted">Logged in as <strong th:text="${sessionUser.name}"></strong> (<span th:text="${sessionUser.role}"></span>)</p>
+        </div>
+        <div class="actions">
+            <a href="/dashboard" class="link-btn secondary">Back to Dashboard</a>
+            <a th:if="${canManageRecords}" href="/expenses/new" class="link-btn primary">Add Record</a>
+        </div>
+    </div>
+
+    <div th:if="${error}" class="message error" th:text="${error}"></div>
+    <div th:if="${success}" class="message success" th:text="${success}"></div>
+
+    <div class="panel">
+        <form action="/expenses" method="get" class="filters">
+            <input type="text" name="category" placeholder="Filter by category" th:value="${category}">
+            <select name="type">
+                <option value="">All types</option>
+                <option value="INCOME" th:selected="${type == 'INCOME'}">INCOME</option>
+                <option value="EXPENSE" th:selected="${type == 'EXPENSE'}">EXPENSE</option>
+            </select>
+            <input type="date" name="date" th:value="${date}">
+            <select name="size">
+                <option value="5" th:selected="${pageSize == 5}">5 / page</option>
+                <option value="10" th:selected="${pageSize == 10}">10 / page</option>
+                <option value="20" th:selected="${pageSize == 20}">20 / page</option>
+            </select>
+            <button type="submit">Apply Filter</button>
+        </form>
+    </div>
+
+    <div class="panel">
+        <table>
+            <thead>
+            <tr>
+                <th>ID</th>
+                <th>Amount</th>
+                <th>Type</th>
+                <th>Category</th>
+                <th>Date</th>
+                <th>Notes</th>
+                <th th:if="${canManageRecords}">Actions</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="expense : ${expenses}">
+                <td th:text="${expense.id}"></td>
+                <td th:text="${expense.amount}"></td>
+                <td><span class="type-chip" th:classappend="${#strings.equals(expense.type,'INCOME')} ? ' income' : ' expense'" th:text="${expense.type}"></span></td>
+                <td th:text="${expense.category}"></td>
+                <td th:text="${expense.date}"></td>
+                <td th:text="${expense.notes}"></td>
+                <td th:if="${canManageRecords}" class="action-links">
+                    <a class="edit-link" th:href="@{'/expenses/edit/' + ${expense.id}}">Edit</a>
+                    <a th:if="${isAdmin}" class="delete-link" th:href="@{'/expenses/delete/' + ${expense.id}}" onclick="return confirm('Delete this record?')">Delete</a>
+                </td>
+            </tr>
+            <tr th:if="${#lists.isEmpty(expenses)}"><td th:colspan="${canManageRecords} ? 7 : 6" class="muted">No records found.</td></tr>
+            </tbody>
+        </table>
+
+        <div class="pagination" th:if="${totalPages > 0}">
+            <div>
+                <a th:classappend="${currentPage == 0} ? ' disabled' : ''"
+                   th:href="@{/expenses(page=${currentPage - 1},size=${pageSize},category=${category},type=${type},date=${date})}">Previous</a>
+                <a th:classappend="${currentPage + 1 >= totalPages} ? ' disabled' : ''"
+                   th:href="@{/expenses(page=${currentPage + 1},size=${pageSize},category=${category},type=${type},date=${date})}">Next</a>
+            </div>
+            <span th:text="|Page ${currentPage + 1} of ${totalPages == 0 ? 1 : totalPages}|"></span>
+        </div>
+    </div>
+</div>
+</body>
+</html>
