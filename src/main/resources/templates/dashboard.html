@@ -47,6 +47,443 @@
         .delete-link { color: #dc2626; }
         .hint-box { background: linear-gradient(135deg, #eff6ff, #f8fafc); border: 1px solid #dbeafe; border-radius: 20px; padding: 18px; margin-bottom: 24px; }
         .muted { color: #64748b; }
+
+
+
+        /* =========================
+   LARGE TABLET / SMALL LAPTOP
+========================= */
+@media (max-width: 1024px) {
+    .content {
+        padding: 22px;
+    }
+
+    .topbar h1 {
+        font-size: 28px;
+    }
+
+    .grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .card .amount {
+        font-size: 26px;
+    }
+
+    th, td {
+        padding: 12px 14px;
+        font-size: 13px;
+    }
+}
+
+/* =========================
+   TABLET
+========================= */
+@media (max-width: 900px) {
+    .layout {
+        grid-template-columns: 1fr;
+    }
+
+    .sidebar {
+        padding: 22px 18px;
+    }
+
+    .content {
+        padding: 18px;
+    }
+
+    .topbar {
+        flex-wrap: wrap;
+        align-items: flex-start;
+        gap: 14px;
+    }
+
+    .topbar h1 {
+        font-size: 26px;
+    }
+
+    .section-title {
+        flex-wrap: wrap;
+        align-items: flex-start;
+        gap: 12px;
+    }
+
+    .grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 14px;
+    }
+
+    .card {
+        padding: 18px;
+        border-radius: 18px;
+    }
+
+    .table-wrap {
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+    }
+
+    table {
+        min-width: 760px;
+    }
+
+    th, td {
+        white-space: nowrap;
+    }
+}
+
+/* =========================
+   MOBILE
+========================= */
+@media (max-width: 768px) {
+    .sidebar {
+        padding: 20px 16px;
+    }
+
+    .logo {
+        font-size: 22px;
+    }
+
+    .sublogo {
+        font-size: 12px;
+        margin-bottom: 22px;
+    }
+
+    .user-box {
+        padding: 14px;
+        border-radius: 14px;
+        margin-bottom: 20px;
+    }
+
+    .nav a {
+        padding: 11px 12px;
+        font-size: 14px;
+    }
+
+    .content {
+        padding: 16px;
+    }
+
+    .topbar {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+        margin-bottom: 20px;
+    }
+
+    .topbar h1 {
+        font-size: 24px;
+    }
+
+    .topbar p {
+        font-size: 14px;
+    }
+
+    .pill {
+        font-size: 12px;
+        padding: 7px 10px;
+    }
+
+    .message {
+        font-size: 13px;
+        padding: 12px 14px;
+        border-radius: 12px;
+    }
+
+    .grid {
+        grid-template-columns: 1fr;
+        gap: 12px;
+        margin-bottom: 20px;
+    }
+
+    .card {
+        padding: 16px;
+        border-radius: 16px;
+    }
+
+    .card h3 {
+        font-size: 15px;
+    }
+
+    .card .amount {
+        font-size: 24px;
+    }
+
+    .section-title {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+        margin: 6px 0 14px;
+    }
+
+    .section-title h2 {
+        font-size: 20px;
+    }
+
+    .btn {
+        width: 100%;
+        text-align: center;
+        padding: 10px 14px;
+        font-size: 13px;
+    }
+
+    .table-wrap {
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+        border-radius: 16px;
+    }
+
+    table {
+        min-width: 700px;
+    }
+
+    th, td {
+        padding: 11px 12px;
+        font-size: 13px;
+        white-space: nowrap;
+    }
+
+    .action-links {
+        min-width: 120px;
+    }
+
+    .action-links a {
+        display: inline-block;
+        margin-right: 8px;
+        margin-bottom: 4px;
+    }
+
+    .hint-box {
+        padding: 16px;
+        border-radius: 16px;
+        margin-bottom: 18px;
+    }
+}
+
+/* =========================
+   SMALL MOBILE
+========================= */
+@media (max-width: 576px) {
+    .sidebar {
+        padding: 18px 14px;
+    }
+
+    .logo {
+        font-size: 20px;
+    }
+
+    .content {
+        padding: 14px;
+    }
+
+    .topbar h1 {
+        font-size: 21px;
+    }
+
+    .topbar p,
+    .muted {
+        font-size: 13px;
+    }
+
+    .pill {
+        font-size: 11px;
+        padding: 6px 9px;
+    }
+
+    .card {
+        padding: 14px;
+    }
+
+    .card .amount {
+        font-size: 22px;
+    }
+
+    .section-title h2 {
+        font-size: 18px;
+    }
+
+    .btn {
+        font-size: 12px;
+        padding: 9px 12px;
+        border-radius: 10px;
+    }
+
+    .table-wrap {
+        border-radius: 14px;
+    }
+
+    table {
+        min-width: 620px;
+    }
+
+    th, td {
+        padding: 10px;
+        font-size: 12px;
+    }
+
+    .role-chip,
+    .status-chip {
+        font-size: 11px;
+        padding: 6px 8px;
+    }
+
+    .hint-box {
+        padding: 14px;
+    }
+}
+
+/* =========================
+   EXTRA SMALL MOBILE
+========================= */
+@media (max-width: 400px) {
+    .sidebar {
+        padding: 16px 12px;
+    }
+
+    .content {
+        padding: 12px;
+    }
+
+    .topbar h1 {
+        font-size: 19px;
+    }
+
+    .topbar p {
+        font-size: 12px;
+    }
+
+    .grid {
+        gap: 10px;
+    }
+
+    .card {
+        padding: 12px;
+        border-radius: 14px;
+    }
+
+    .card h3 {
+        font-size: 14px;
+    }
+
+    .card .amount {
+        font-size: 20px;
+    }
+
+    .section-title h2 {
+        font-size: 17px;
+    }
+
+    .btn {
+        font-size: 12px;
+        padding: 8px 10px;
+    }
+
+    table {
+        min-width: 560px;
+    }
+
+    th, td {
+        font-size: 11px;
+        padding: 8px 9px;
+    }
+
+    .role-chip,
+    .status-chip {
+        font-size: 10px;
+        padding: 5px 7px;
+    }
+
+    .action-links a {
+        font-size: 12px;
+    }
+}
+        /* ===== SIDEBAR TOGGLE BUTTON ===== */
+.menu-btn {
+    display: none;
+    background: #0f172a;
+    color: #fff;
+    border: none;
+    border-radius: 10px;
+    padding: 10px 12px;
+    font-size: 20px;
+    cursor: pointer;
+    line-height: 1;
+}
+
+/* ===== OVERLAY ===== */
+.sidebar-overlay {
+    display: none;
+}
+
+/* ===== MOBILE / TABLET SIDEBAR ===== */
+@media (max-width: 900px) {
+    .layout {
+        grid-template-columns: 1fr !important;
+    }
+
+    .menu-btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .sidebar {
+        position: fixed;
+        top: 0;
+        left: -290px;
+        width: 280px;
+        height: 100vh;
+        z-index: 1001;
+        overflow-y: auto;
+        transition: left 0.3s ease;
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.25);
+    }
+
+    .sidebar.open {
+        left: 0;
+    }
+
+    .content {
+        width: 100%;
+        min-width: 0;
+    }
+
+    .sidebar-overlay {
+        position: fixed;
+        inset: 0;
+        background: rgba(15, 23, 42, 0.45);
+        z-index: 1000;
+    }
+
+    .sidebar-overlay.show {
+        display: block;
+    }
+}
+
+/* ===== SMALL MOBILE ===== */
+@media (max-width: 576px) {
+    .sidebar {
+        width: 260px;
+        left: -270px;
+        padding: 20px 16px;
+    }
+
+    .menu-btn {
+        padding: 9px 11px;
+        font-size: 18px;
+        border-radius: 8px;
+    }
+}
+
+/* ===== VERY SMALL MOBILE ===== */
+@media (max-width: 400px) {
+    .sidebar {
+        width: 240px;
+        left: -250px;
+    }
+}
+
+        
         @media (max-width: 1100px) { .layout { grid-template-columns: 1fr; } .grid { grid-template-columns: 1fr 1fr; } .content { padding: 20px; } }
         @media (max-width: 700px) { .grid { grid-template-columns: 1fr; } .topbar, .section-title { flex-direction: column; align-items: flex-start; } }
     </style>
@@ -54,6 +491,7 @@
 <body>
 <div class="layout">
     <aside class="sidebar">
+        <div class="sidebar-overlay" onclick="closeSidebar()"></div>
         <div class="logo">Finance dashboard</div>
         <div class="sublogo">Manual session based access control</div>
 
@@ -74,6 +512,7 @@
 
     <main class="content">
         <div class="topbar">
+             <button class="menu-btn" type="button" onclick="toggleSidebar()">☰</button>
             <div>
                 <h1>Welcome back</h1>
             </div>
@@ -151,5 +590,40 @@
         </section>
     </main>
 </div>
+
+    <script>
+
+        function openSidebar() {
+    const sidebar = document.querySelector('.sidebar');
+    const overlay = document.querySelector('.sidebar-overlay');
+
+    if (sidebar) sidebar.classList.add('open');
+    if (overlay) overlay.classList.add('show');
+}
+
+function closeSidebar() {
+    const sidebar = document.querySelector('.sidebar');
+    const overlay = document.querySelector('.sidebar-overlay');
+
+    if (sidebar) sidebar.classList.remove('open');
+    if (overlay) overlay.classList.remove('show');
+}
+
+function toggleSidebar() {
+    const sidebar = document.querySelector('.sidebar');
+    const overlay = document.querySelector('.sidebar-overlay');
+
+    if (!sidebar || !overlay) return;
+
+    sidebar.classList.toggle('open');
+    overlay.classList.toggle('show');
+}
+
+window.addEventListener('resize', function () {
+    if (window.innerWidth > 900) {
+        closeSidebar();
+    }
+});
+    </script>
 </body>
 </html>
